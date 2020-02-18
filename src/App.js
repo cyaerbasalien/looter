@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ListInput from './components/ListInput';
 import ListItem from './components/ListItem';
 import './App.scss';
-import { Layout, Button } from 'antd';
+import { Layout, Button, Icon } from 'antd';
 import Select from 'react-select';
 import ProbabilityTable from './components/ProbabilityTable';
 import 'antd/dist/antd.css';
@@ -61,16 +61,23 @@ function App() {
           />
           Items:{' '}
           {Object.keys(items).map(itemName => (
-            <ListItem
-              key={itemName}
-              removeItem={() => {
-                const { [itemName]: removedItem, ...remainingItems } = items;
-                setItems(remainingItems);
-              }}
-            >
+            <ListItem key={itemName}>
               <div>
                 <div className="item-name">
-                  {itemName} {items[itemName].dropRate}
+                  {itemName} {items[itemName].dropRate}{' '}
+                  {isEditing && (
+                    <Icon
+                      className="close-icon"
+                      type="close"
+                      onClick={() => {
+                        const {
+                          [itemName]: removedItem,
+                          ...remainingItems
+                        } = items;
+                        setItems(remainingItems);
+                      }}
+                    />
+                  )}
                 </div>
                 {isEditing ? (
                   <>
@@ -121,15 +128,19 @@ function App() {
           <div>
             Players:{' '}
             {players.map(player => (
-              <ListItem
-                key={player}
-                removeItem={() =>
-                  setPlayers(
-                    players.filter(playerName => playerName !== player)
-                  )
-                }
-              >
-                {player}
+              <ListItem key={player}>
+                {player}{' '}
+                {isEditing && (
+                  <Icon
+                    className="close-icon"
+                    type="close"
+                    onClick={() =>
+                      setPlayers(
+                        players.filter(playerName => playerName !== player)
+                      )
+                    }
+                  />
+                )}
               </ListItem>
             ))}
           </div>

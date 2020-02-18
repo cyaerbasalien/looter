@@ -1,13 +1,7 @@
 import React from 'react';
-import { Icon } from 'antd';
 
-function ListItem({ children, removeItem }) {
-  return (
-    <div className="list-item">
-      {/* <Icon className="close-icon" type="close" onClick={removeItem} /> */}
-      {children}
-    </div>
-  );
+function ListItem({ children }) {
+  return <div className="list-item">{children}</div>;
 }
 
 export default ListItem;
