@@ -69,7 +69,9 @@ function App() {
               }}
             >
               <div>
-                {itemName} {items[itemName].dropRate}
+                <div className="item-name">
+                  {itemName} {items[itemName].dropRate}
+                </div>
                 {isEditing ? (
                   <>
                     <label>
@@ -100,7 +102,6 @@ function App() {
                   </>
                 ) : (
                   <>
-                    <br />
                     {items[itemName].players &&
                       items[itemName].players.reduce(
                         (acc, playerName) => `${acc}, ${playerName}`
