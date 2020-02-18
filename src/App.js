@@ -3,7 +3,6 @@ import ListInput from './components/ListInput';
 import ListItem from './components/ListItem';
 import './App.scss';
 import { Layout, Button } from 'antd';
-// import Table from 'react-table-6';
 import Select from 'react-select';
 import 'antd/dist/antd.css';
 
@@ -39,6 +38,78 @@ function App() {
   return (
     <Layout style={{ height: '100vh' }}>
       <Layout.Sider theme="light" width="fit-content">
+        <Button
+          className="toggle-mode-btn"
+          onClick={() => {
+            if (isEditing) {
+              localStorage.setItem('players', JSON.stringify(players));
+              localStorage.setItem('items', JSON.stringify(items));
+              setEditing(false);
+            } else {
+              setEditing(true);
+            }
+          }}
+        >
+          {isEditing ? 'Save' : 'Edit'}
+        </Button>
+        <div className="item-list">
+          <ListInput
+            label="Add Item"
+            placeholder="Item Name"
+            addToList={addItemToList}
+          />
+          Items:{' '}
+          {Object.keys(items).map(itemName => (
+            <ListItem
+              key={itemName}
+              removeItem={() => {
+                const { [itemName]: removedItem, ...remainingItems } = items;
+                setItems(remainingItems);
+              }}
+            >
+              <div>
+                {itemName} {items[itemName].dropRate}
+                {isEditing ? (
+                  <>
+                    <label>
+                      Drop Rate:
+                      <input
+                        value={items[itemName].dropRate}
+                        onChange={e => {
+                          const newItems = { ...items };
+                          newItems[itemName].dropRate = e.target.value;
+                          setItems(newItems);
+                        }}
+                        type="number"
+                      />
+                    </label>
+                    <Select
+                      isMulti
+                      closeMenuOnSelect={false}
+                      value={items[itemName].players}
+                      onChange={playerList => {
+                        const newItems = { ...items };
+                        newItems[itemName].players = playerList;
+                        setItems(newItems);
+                      }}
+                      options={players}
+                      getOptionLabel={option => option}
+                      getOptionValue={option => option}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <br />
+                    {items[itemName].players &&
+                      items[itemName].players.reduce(
+                        (acc, playerName) => `${acc}, ${playerName}`
+                      )}
+                  </>
+                )}
+              </div>
+            </ListItem>
+          ))}
+        </div>
         <div className="item-list">
           <ListInput
             label="Add Player"
@@ -57,66 +128,6 @@ function App() {
                 }
               >
                 {player}
-              </ListItem>
-            ))}
-          </div>
-        </div>
-        <Button
-          className="toggle-mode-btn"
-          onClick={() => {
-            if (isEditing) {
-              localStorage.setItem('players', JSON.stringify(players));
-              localStorage.setItem('items', JSON.stringify(items));
-              setEditing(false);
-            } else {
-              setEditing(true);
-            }
-          }}
-        >
-          {isEditing ? 'Save Item Priorities' : 'Edit Item Priorities'}
-        </Button>
-        <div className="item-list">
-          <ListInput
-            label="Add Item"
-            placeholder="Item Name"
-            addToList={addItemToList}
-          />
-          <div>
-            Items:{' '}
-            {Object.keys(items).map(itemName => (
-              <ListItem
-                key={itemName}
-                removeItem={() => {
-                  const { [itemName]: removedItem, ...newItems } = items;
-                  setItems(newItems);
-                }}
-              >
-                <div>
-                  {itemName}
-                  {isEditing ? (
-                    <Select
-                      isMulti
-                      closeMenuOnSelect={false}
-                      value={items[itemName].players}
-                      onChange={playerList => {
-                        const newItems = { ...items };
-                        newItems[itemName].players = playerList;
-                        setItems(newItems);
-                      }}
-                      options={players}
-                      getOptionLabel={option => option}
-                      getOptionValue={option => option}
-                    />
-                  ) : (
-                    <>
-                      <br />
-                      {items[itemName].players &&
-                        items[itemName].players.reduce(
-                          (acc, playerName) => `${acc}, ${playerName}`
-                        )}
-                    </>
-                  )}
-                </div>
               </ListItem>
             ))}
           </div>

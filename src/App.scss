@@ -9,13 +9,16 @@
   justify-content: space-between;
 }
 
+.item-list {
+  margin: 20px 0;
+  > div {
+    margin: 10px 0;
+  }
+}
+
 .list-input {
   margin-left: 20px;
   color: black;
-}
-
-.item-list {
-  margin: 20px 0;
 }
 
 .list-item {
