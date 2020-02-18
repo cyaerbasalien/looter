@@ -42,7 +42,7 @@ function getDataFromState(players, items, runs) {
     items[itemName].players.forEach((player, order) => {
       playerProbabilities[player][itemName] = chanceOfDrop(
         runs,
-        order,
+        order + 1,
         items[itemName].dropRate
       ).toPrecision(4);
     });
