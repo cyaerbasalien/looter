@@ -1,10 +1,10 @@
 import React from 'react';
 import { Icon } from 'antd';
 
-function ListItem({ name, removeItem }) {
+function ListItem({ children, removeItem }) {
   return (
     <div className="list-item">
-      {name}
+      {children}
       <Icon className="close-icon" type="close" onClick={removeItem} />
     </div>
   );

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import ListInput from './components/ListInput';
 import ListItem from './components/ListItem';
 import './App.scss';
-import { Layout, Icon } from 'antd';
+import { Layout } from 'antd';
+import Table from 'react-table-6';
 import 'antd/dist/antd.css';
 
 function App() {
@@ -15,9 +16,9 @@ function App() {
     }
   }
 
-  function addItemToList(item) {
-    if (!items.includes(item)) {
-      setItems([...items, item]);
+  function addItemToList(name) {
+    if (items.every(item => item.name !== name)) {
+      setItems([...items, { name: name }]);
     }
   }
 
@@ -25,30 +26,44 @@ function App() {
     <Layout style={{ height: '100vh' }}>
       <Layout.Sider width="fit-content">
         <div className="item-list">
-          Add Player
-          <ListInput addToList={addPlayerToList} />
+          <ListInput
+            label="Add Player"
+            placeholder="Player Name"
+            addToList={addPlayerToList}
+          />
           <div>
             Players:{' '}
             {players.map(player => (
               <ListItem
                 key={player}
-                name={player}
                 removeItem={() =>
                   setPlayers(
                     players.filter(playerName => playerName !== player)
                   )
                 }
-              />
+              >
+                {player}
+              </ListItem>
             ))}
           </div>
         </div>
         <div className="item-list">
-          Add Item
-          <ListInput addToList={addItemToList} />
+          <ListInput
+            label="Add Item"
+            placeholder="Item Name"
+            addToList={addItemToList}
+          />
           <div>
             Items:{' '}
             {items.map(item => (
-              <div key={item}>{item}</div>
+              <ListItem
+                key={item.name}
+                removeItem={() =>
+                  setItems(items.filter(({ name }) => name !== item.name))
+                }
+              >
+                {item.name}
+              </ListItem>
             ))}
           </div>
         </div>

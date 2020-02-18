@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function ListInput({ addToList }) {
+function ListInput({ label, placeholder, addToList }) {
   const [name, setName] = useState('');
 
   function submit(e) {
@@ -11,13 +11,16 @@ function ListInput({ addToList }) {
   }
 
   return (
-    <input
-      className="list-input"
-      placeholder="Name"
-      value={name}
-      onChange={e => setName(e.target.value)}
-      onKeyPress={submit}
-    />
+    <label className="list-input-label">
+      {label}
+      <input
+        className="list-input"
+        placeholder={placeholder}
+        value={name}
+        onChange={e => setName(e.target.value)}
+        onKeyPress={submit}
+      />
+    </label>
   );
 }
 
