@@ -54,11 +54,13 @@ function App() {
           {isEditing ? 'Save' : 'Edit'}
         </Button>
         <div className="item-list">
-          <ListInput
-            label="Add Item"
-            placeholder="Item Name"
-            addToList={addItemToList}
-          />
+          {isEditing && (
+            <ListInput
+              label="Add Item"
+              placeholder="Item Name"
+              addToList={addItemToList}
+            />
+          )}
           Items:{' '}
           {Object.keys(items).map(itemName => (
             <ListItem key={itemName}>
@@ -120,11 +122,13 @@ function App() {
           ))}
         </div>
         <div className="item-list">
-          <ListInput
-            label="Add Player"
-            placeholder="Player Name"
-            addToList={addPlayerToList}
-          />
+          {isEditing && (
+            <ListInput
+              label="Add Player"
+              placeholder="Player Name"
+              addToList={addPlayerToList}
+            />
+          )}
           <div>
             Players:{' '}
             {players.map(player => (
