@@ -4,6 +4,7 @@ import ListItem from './components/ListItem';
 import './App.scss';
 import { Layout, Button } from 'antd';
 import Select from 'react-select';
+import ProbabilityTable from './components/ProbabilityTable';
 import 'antd/dist/antd.css';
 
 function App() {
@@ -133,7 +134,11 @@ function App() {
           </div>
         </div>
       </Layout.Sider>
-      <Layout.Content></Layout.Content>
+      <Layout.Content>
+        {players.length && Object.keys(items).length && (
+          <ProbabilityTable players={players} items={items} />
+        )}
+      </Layout.Content>
     </Layout>
   );
 }
