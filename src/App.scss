@@ -26,6 +26,8 @@
   .close-icon {
     margin-left: 5px;
   }
+  display: flex;
+  flex-direction: column;
 }
 
 .item-name {

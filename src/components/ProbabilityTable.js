@@ -39,7 +39,7 @@ function getDataFromState(players, items, runs) {
   players.forEach(player => (playerProbabilities[player] = {}));
 
   Object.keys(items).forEach(itemName => {
-    items[itemName].players.forEach((player, order) => {
+    items[itemName].upcoming.forEach((player, order) => {
       playerProbabilities[player][itemName] = chanceOfDrop(
         runs,
         order + 1,

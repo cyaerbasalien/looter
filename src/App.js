@@ -64,7 +64,7 @@ function App() {
           Items:{' '}
           {Object.keys(items).map(itemName => (
             <ListItem key={itemName}>
-              <div>
+              <>
                 <div className="item-name">
                   {itemName} {items[itemName].dropRate}{' '}
                   {isEditing && (
@@ -95,29 +95,48 @@ function App() {
                         type="number"
                       />
                     </label>
-                    <Select
-                      isMulti
-                      closeMenuOnSelect={false}
-                      value={items[itemName].players}
-                      onChange={playerList => {
-                        const newItems = { ...items };
-                        newItems[itemName].players = playerList;
-                        setItems(newItems);
-                      }}
-                      options={players}
-                      getOptionLabel={option => option}
-                      getOptionValue={option => option}
-                    />
+                    <label>
+                      Upcoming:
+                      <Select
+                        isMulti
+                        closeMenuOnSelect={false}
+                        value={items[itemName].upcoming}
+                        onChange={playerList => {
+                          const newItems = { ...items };
+                          newItems[itemName].upcoming = playerList;
+                          setItems(newItems);
+                        }}
+                        options={players}
+                        getOptionLabel={option => option}
+                        getOptionValue={option => option}
+                      />
+                    </label>
+                    <label>
+                      History:
+                      <Select
+                        isMulti
+                        closeMenuOnSelect={false}
+                        value={items[itemName].history}
+                        onChange={playerList => {
+                          const newItems = { ...items };
+                          newItems[itemName].history = playerList;
+                          setItems(newItems);
+                        }}
+                        options={players}
+                        getOptionLabel={option => option}
+                        getOptionValue={option => option}
+                      />
+                    </label>
                   </>
                 ) : (
                   <>
-                    {items[itemName].players &&
-                      items[itemName].players.reduce(
+                    {items[itemName].upcoming &&
+                      items[itemName].upcoming.reduce(
                         (acc, playerName) => `${acc}, ${playerName}`
                       )}
                   </>
                 )}
-              </div>
+              </>
             </ListItem>
           ))}
         </div>
