@@ -33,3 +33,12 @@
 .item-name {
   font-weight: 600;
 }
+
+.table-cell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  > div {
+    margin-right: 5px;
+  }
+}

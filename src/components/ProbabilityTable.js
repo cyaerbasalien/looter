@@ -15,6 +15,42 @@ function ProbabilityTable({ players, items }) {
   const probabilities = Object.keys(items).map(itemName => ({
     Header: () => <span>{itemName}</span>,
     accessor: itemName,
+    Cell: props => {
+      if (props.value === true) {
+        return (
+          <div
+            style={{
+              backgroundColor: percentageToHsl(1),
+              width: '15px',
+              height: '15px',
+            }}
+          />
+        );
+      } else if (typeof props.value === 'string') {
+        return (
+          <div className="table-cell">
+            <div
+              style={{
+                backgroundColor: percentageToHsl(props.value),
+                width: '15px',
+                height: '15px',
+              }}
+            />
+            {props.value}
+          </div>
+        );
+      } else {
+        return (
+          <div
+          // style={{
+          //   backgroundColor: percentageToHsl(0),
+          //   width: '15px',
+          //   height: '15px',
+          // }}
+          />
+        );
+      }
+    },
   }));
   const columns = [name, ...probabilities];
 
@@ -29,7 +65,9 @@ function ProbabilityTable({ players, items }) {
         <input value={runs} onChange={e => setRuns(e.target.value)} />
       </label>
       <Button onClick={calculateProbability}>Run</Button>
-      {data.length > 0 && <ReactTable data={data} columns={columns} />}
+      {data.length > 0 && (
+        <ReactTable data={data} columns={columns} className="-highlight" />
+      )}
     </>
   );
 }
@@ -46,12 +84,22 @@ function getDataFromState(players, items, runs) {
         items[itemName].dropRate
       ).toPrecision(4);
     });
+    items[itemName].history.forEach(player => {
+      playerProbabilities[player][itemName] = true;
+    });
   });
-
   return Object.keys(playerProbabilities).map(playerName => ({
     name: playerName,
     ...playerProbabilities[playerName],
   }));
+}
+
+function percentageToHsl(percentage, hue0 = 0, hue1 = 120) {
+  if (typeof percentage === 'string') {
+    percentage = Number(percentage);
+  }
+  var hue = percentage * (hue1 - hue0) + hue0;
+  return 'hsl(' + hue + ', 100%, 50%)';
 }
 
 export default ProbabilityTable;
